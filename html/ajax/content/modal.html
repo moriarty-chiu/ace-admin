@@ -1,0 +1,40 @@
+
+<title>Blank Page - Ace Admin</title>
+
+<!-- ajax layout which only needs content area -->
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="container">
+			<h2>Example of creating Modals with Twitter Bootstrap</h2>
+			<div id="example" class="modal hide fade in" style="display: none; ">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a>
+					<h3>This is a Modal Heading</h3>
+				</div>
+				<div class="modal-body">
+					<h4>Text in a modal</h4>
+					<p>You can add some text here.</p>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-success">Call to action</a>
+					<a href="#" class="btn" data-dismiss="modal">Close</a>
+				</div>
+			</div>
+			<p><a data-toggle="modal" href="#example" class="btn btn-primary btn-large">Launch demo modal</a></p>
+		</div>
+		<!-- PAGE CONTENT ENDS -->
+	</div>
+	<!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null, null];
+
+	 $('.page-content-area').ace_ajax('loadScripts', scripts, function () {
+	 //inline scripts related to this page
+
+	 });
+
+</script>

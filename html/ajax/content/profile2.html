@@ -1,0 +1,153 @@
+<title>User Profile Page - Ace Admin</title>
+
+<link rel="stylesheet" href="../../assets/css/jquery-ui.custom.css"/>
+<link rel="stylesheet" href="../../assets/css/jquery.gritter.css"/>
+<link rel="stylesheet" href="../../assets/css/select2.css"/>
+<link rel="stylesheet" href="../../assets/css/bootstrap-datepicker3.css"/>
+<link rel="stylesheet" href="../../assets/css/bootstrap-editable.css"/>
+
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<!--		<div class="">
+					<div id="user-profile-2" class="user-profile">
+						<div class="tabbable">
+
+							<div class="tab-content no-border padding-24">
+								<div id="home" class="tab-pane in active">
+									<div class="row">
+										<div class="col-xs-12 col-sm-3 center">
+											<span class="profile-picture">
+												<img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="../../assets/avatars/profile-pic.jpg" />
+											</span>
+
+										</div>&lt;!&ndash; /.col &ndash;&gt;
+									</div>&lt;!&ndash; /.row &ndash;&gt;
+
+								</div>&lt;!&ndash; /#home &ndash;&gt;
+							</div>
+						</div>
+					</div>
+				</div>-->
+
+		<span class="profile-picture">
+			<img class="editable img-responsive" alt="Alex's Avatar" id="avatar2"
+				 src="../../assets/avatars/profile-pic.jpg"/>
+									</span>
+		<!-- PAGE CONTENT ENDS -->
+	</div>
+	<!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="../../assets/js/excanvas.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	var scripts = [null,
+		"../../assets/js/x-editable/bootstrap-editable.js",
+		null]
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function () {
+		//inline scripts related to this page
+		jQuery(function ($) {
+
+
+				//another option is using modals
+			$('#avatar2').on('click', function () {
+				var modal =
+						'<div class="modal fade">\
+						  <div class="modal-dialog">\
+						   <div class="modal-content">\
+							<div class="modal-header">\
+								<button type="button" class="close" data-dismiss="modal">&times;</button>\
+								<h4 class="blue">更换头像</h4>\
+							</div>\
+							\
+							<form class="no-margin">\
+							 <div class="modal-body">\
+								<div class="space-4"></div>\
+								<div style="width:75%;margin-left:12%;"><input type="file" name="file-input" /></div>\
+							 </div>\
+							\
+							 <div class="modal-footer center">\
+								<button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> 确定</button>\
+								<button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> 取消</button>\
+							 </div>\
+							</form>\
+						  </div>\
+						 </div>\
+						</div>';
+
+
+				var modal = $(modal);
+				modal.modal("show").on("hidden", function () {
+					modal.remove();
+				});
+
+				var working = false;
+
+				var form = modal.find('form:eq(0)');
+				var file = form.find('input[type=file]').eq(0);
+				file.ace_file_input({
+					style: 'well',
+					btn_choose: '单击选择新的头像',
+					btn_change: null,
+					no_icon: 'ace-icon fa fa-picture-o',
+					thumbnail: 'small',
+					before_remove: function () {
+						//don't remove/reset files while being uploaded
+						return !working;
+					},
+					allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+					allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+				});
+
+				form.on('submit', function () {
+
+					if (!file.data('ace_input_files')) return false;
+
+					file.ace_file_input('disable');
+					form.find('button').attr('disabled', 'disabled');
+					form.find('.modal-body').append("<div class='center'><i class='ace-icon fa fa-spinner fa-spin bigger-150 orange'></i></div>");
+
+					var deferred = new $.Deferred;
+					working = true;
+					deferred.done(function () {
+						debugger;
+						form.find('button').removeAttr('disabled');
+						form.find('input[type=file]').ace_file_input('enable');
+						form.find('.modal-body > :last-child').remove();
+
+						modal.modal("hide");
+
+						var thumb = file.next().find('img').data('thumb');
+						if (thumb) $('#avatar2').get(0).src = thumb;
+
+						working = false;
+					});
+
+
+					setTimeout(function () {
+						deferred.resolve();
+					}, parseInt(Math.random() * 800 + 800));
+
+					return false;
+				});
+
+			});
+
+			/////////////////////////////////////
+			$(document).one('ajaxloadstart.page', function (e) {
+				//in ajax mode, remove remaining elements before leaving page
+				try {
+					$('.editable').editable('destroy');
+				} catch (e) {
+				}
+				$('[class*=select2]').remove();
+			});
+		});
+
+
+	});
+</script>

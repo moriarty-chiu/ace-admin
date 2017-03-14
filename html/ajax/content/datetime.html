@@ -1,0 +1,58 @@
+
+<title>Form Elements - Ace Admin</title>
+
+<link rel="stylesheet" href="../../assets/css/jquery-ui.custom.css" />
+<link rel="stylesheet" href="../../assets/css/chosen.css" />
+<link rel="stylesheet" href="../../assets/css/bootstrap-datepicker3.css" />
+<link rel="stylesheet" href="../../assets/css/bootstrap-timepicker.css" />
+<link rel="stylesheet" href="../../assets/css/daterangepicker.css" />
+<link rel="stylesheet" href="../../assets/css/bootstrap-datetimepicker.css" />
+<link rel="stylesheet" href="../../assets/css/colorpicker.css" />
+
+<label for="date-timepicker1">Date/Time Picker</label>
+
+<!-- #section:plugins/date-time.datetimepicker -->
+<div class="input-group">
+	<input id="date-timepicker1" type="text" class="form-control"/>
+<!--	<span class="input-group-addon">
+	<i class="fa fa-clock-o bigger-110"></i>
+	</span>-->
+</div>
+
+<!-- page specific plugin scripts -->
+
+<script type="text/javascript">
+	var scripts = [null,
+		"../../assets/js/date-time/moment.js",
+//		"../../assets/js/date-time/daterangepicker.js",
+		"../../assets/js/date-time/bootstrap-datetimepicker.js",
+		null]
+
+
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+		//inline scripts related to this page
+		jQuery(function($) {
+
+			$('#date-timepicker1').datetimepicker({
+				icons: {
+					time: 'fa fa-clock-o',
+					date: 'fa fa-calendar',
+					up: 'fa fa-chevron-up',
+					down: 'fa fa-chevron-down',
+					previous: 'fa fa-chevron-left',
+					next: 'fa fa-chevron-right',
+					today: 'fa fa-arrows ',
+					clear: 'fa fa-trash',
+					close: 'fa fa-times'
+				}
+			}).next().on(ace.click_event, function(){
+				$(this).prev().focus();
+			});
+
+		})
+	});
+
+
+		
+	
+</script>
