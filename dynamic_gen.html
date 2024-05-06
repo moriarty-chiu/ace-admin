@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Table from JSON with jQuery</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Reference</th>
+      <th colspan="3">Changes</th>
+    </tr>
+    <tr>
+      <th>Column</th>
+      <th>Before</th>
+      <th>After</th>
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <!-- Dynamic content will be loaded here -->
+  </tbody>
+</table>
+
+<script>
+$(document).ready(function() {
+  // Sample JSON data
+  let jsonData = [
+    {
+      "IA-4412": [
+        {"Change": "Name", "Before": "Ma", "After": "Mo"},
+        {"Change": "Status", "Before": "N", "After": "Y"}
+      ]
+    },
+    {
+      "IA-4433": [
+        {"Change": "Name", "Before": "H", "After": "G"},
+        {"Change": "City", "Before": "NY", "After": "LA"},
+        {"Change": "Day", "Before": "7", "After": "12"}
+      ]
+    },
+    {
+      "IS-1728": [
+        {"Change": "Update", "Before": "04/16/2024", "After": "04/28/2024"},
+        {"Change": "Response", "Before": "Thame", "After": "Keith"}
+      ]
+    }
+    // Add more objects with the same structure here
+  ];
+
+  // Function to generate tbody content from JSON
+  function generateTBodyFromJSON(jsonArray) {
+    jsonArray.forEach(item => {
+      let reference = Object.keys(item)[0];
+      let changes = item[reference];
+      let firstChange = changes[0];
+
+      // Create the first row for this reference
+      let $row = $('<tr></tr>');
+      let $refCell = $('<td></td>').text(reference).attr('rowspan', changes.length);
+      $row.append($refCell);
+
+      let $changeCell = $('<td></td>').text(firstChange.Change);
+      let $beforeCell = $('<td></td>').text(firstChange.Before);
+      let $afterCell = $('<td></td>').text(firstChange.After);
+      $row.append($changeCell, $beforeCell, $afterCell);
+
+      $('#table-body').append($row);
+
+      // Create additional rows for other changes
+      changes.slice(1).forEach(change => {
+        let $changeRow = $('<tr></tr>');
+        let $changeCell = $('<td></td>').text(change.Change);
+        let $beforeCell = $('<td></td>').text(change.Before);
+        let $afterCell = $('<td></td>').text(change.After);
+        $changeRow.append($changeCell, $beforeCell, $afterCell);
+        $('#table-body').append($changeRow);
+      });
+    });
+  }
+
+  // Call the function with your JSON data
+  generateTBodyFromJSON(jsonData);
+});
+</script>
+
+</body>
+</html>
